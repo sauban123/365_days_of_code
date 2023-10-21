@@ -1,0 +1,18 @@
+#include<iostream>
+using namespace std;
+int  power(int n){
+    if(n==0){
+        return 1;
+    }
+    int ans = 2*power(n-1);
+    return ans;
+}
+
+int main(){
+    int n;
+    cout<<"enter the power of 2 : ";
+    cin>>n;
+    // cout<<power(n);
+    cout<<"2 ki power "<<n<<" = "<<power(n);
+    return 0;
+}
