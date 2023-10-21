@@ -1,0 +1,22 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+int digit_toNumber(vector<int> ans,int index,int &number){
+    if(index <0){
+        return number;
+    }
+    // number = number*10 +ans[index];
+    digit_toNumber(ans,index-1,number);
+    number = number*10 +ans[index];
+
+    return number;
+}
+
+int main(){
+    vector<int> ans  = {1,2,3,4,5};
+    int index =ans.size()-1;
+    int number =0;
+    cout<<digit_toNumber(ans,index,number);
+    return 0;
+}
