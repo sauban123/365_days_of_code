@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int countDevices(string &binary){
+        int c=0;
+        for(auto b:binary){
+            c += b -'0';
+        }
+        return c;
+    }
+    int numberOfBeams(vector<string>& bank) {
+        vector<int >device;
+        for(auto row: bank){
+            device.push_back(countDevices(row));
+        } 
+        int beam =0;
+        for(int i=0 ;i<device.size();i++){
+            int j= i+1;
+            while(j<device.size()){
+                beam += device[j] *device[i];
+                if(device[j]==0){
+                    j++;
+                }
+                else   break;
+            }
+        }
+        return beam;
+    }
+};
