@@ -1,2 +1,10 @@
 # 365_days_of_code-C++
-go in  folder 365 days daily problem solve <br>day-1 to day-365
+**visit the folder 365 days**  
+
+
+Hey 👋 I'm Mohd Sauban
+A passionate app developer
+[![@sauban123's Holopin board](https://holopin.me/sauban123)](https://holopin.io/@sauban123)
+<p align="left"> <img src="https://komarev.com/ghpvc/?username=sauban123&label=Profile%20views&color=0e75b6&style=flat" alt="sauban123" /> </p>
+
+- 🌱 I’m currently learning **Android developmen**
