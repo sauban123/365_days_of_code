@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int convertTomin(string &time){
+        int hour = stoi(time.substr(0,2));
+        int min = stoi(time.substr(3,2));
+        //1st me index batate hai 2nd wale me size kitna ka 
+        int minutes = hour*60+min;
+        return minutes;
+    }
+    //isme retutn int me karana hai 
+    int findMinDifference(vector<string>& timePoints) {
+        vector<int> mins;
+        for(auto time: timePoints){
+               mins.push_back(convertTomin(time));
+        }
+        sort(mins.begin(),mins.end());
+        int ans = INT_MAX;
+        for(int i=0 ;i<mins.size()-1;i++){
+            ans = min(ans,mins[i+1]- mins[i]);
+        }
+        int lastDiff =mins[0] + min(ans,1440-mins[mins.size()-1]);
+        ans = min(ans,lastDiff);
+        return ans;
+    }
+};
