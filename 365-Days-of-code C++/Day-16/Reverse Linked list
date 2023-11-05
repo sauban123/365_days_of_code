@@ -1,0 +1,22 @@
+class Solution {
+public:
+    ListNode* reverseUsingRecursion(ListNode* prev,ListNode*curr){
+        //base case
+        if(curr == NULL){
+            return prev;
+        }
+        // 1 case hum solve karenge 
+        ListNode* nextNode = curr->next;
+        curr->next= prev;
+        prev = curr;
+        curr = nextNode;
+//baaki recursion dekh lega 
+        return reverseUsingRecursion(prev,curr);
+    }
+    ListNode* reverseList(ListNode* head) {
+        ListNode*prev = NULL;
+        ListNode*curr = head;
+
+        return reverseUsingRecursion(prev,curr);    
+    }
+};
