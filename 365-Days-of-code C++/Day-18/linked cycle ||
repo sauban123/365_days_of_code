@@ -1,0 +1,27 @@
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(fast !=NULL){
+            fast = fast-> next;
+            if(fast != NULL){
+                fast = fast ->next;
+                slow = slow->next;
+            }
+            if(fast == slow){
+                break;
+            }
+        }  // agar loop ni mila to fast NLUL ko point karega check karlo
+        if(fast == NULL){
+            return NULL;
+        }
+        //agar loop mil gya to slow to head par lagao aur 1 step fast and slow badhao till they both return the loop starting point
+        slow  =  head;
+        while(slow != fast){
+            slow = slow ->next;
+            fast  = fast ->next;
+        }
+        return slow;
+    }
+};
