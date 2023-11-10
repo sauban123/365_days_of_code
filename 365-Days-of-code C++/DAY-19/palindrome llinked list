@@ -1,0 +1,54 @@
+class Solution {
+public:
+    ListNode* reverseUsingRecursion(ListNode*prev, ListNode*curr){
+        //Base case 
+        if(curr ==NULL)    return prev;
+        //1 case hum solve karenge 
+        ListNode*nextNode= curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = nextNode;
+        //baaki recursio sambhal lega 
+        return reverseUsingRecursion(prev,curr);
+    }
+    ListNode* middleNode(ListNode*head){
+        ListNode*slow = head;
+        ListNode*fast = head;
+        while(fast ->next!= NULL){
+            fast = fast->next;
+            if(fast->next !=NULL){
+                fast = fast->next;
+                slow = slow->next;
+            }
+        }
+        return slow;
+    }
+    bool compareList(ListNode* head1,ListNode* head2){
+        //yaha par humne head2 hi check kiya bcz always head2 wala hi longest higi isliye ek hi laga kar check kiya hai
+        while(head2 !=NULL){
+            if(head1->val  != head2->val){  //val use kiya kyunki questio me val diya hua tha data ki jagah
+                return false;
+            }
+            else {
+                head1 = head1->next;
+                head2 = head2->next;
+            }
+        }
+        return true;
+    }
+    bool isPalindrome(ListNode* head) {
+        //break into two halves
+        ListNode* midNode = middleNode(head);
+        ListNode* head2 = midNode->next;
+        midNode ->next = NULL;
+        //reverse second half
+
+        ListNode* prev = NULL;
+        ListNode* curr = head2;
+        head2= reverseUsingRecursion(prev,curr);
+
+        //compare both the linked list
+        bool ans = compareList(head,head2);
+        return ans; 
+    }
+};
