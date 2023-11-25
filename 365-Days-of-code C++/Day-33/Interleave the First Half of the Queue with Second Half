@@ -1,0 +1,30 @@
+class Solution{
+public:
+    vector<int> rearrangeQueue(queue<int> &q){
+        queue<int> second;
+        vector<int> ans;
+       // push q half of q queue in second queue
+       int size = q.size();
+       for(int i=0 ; i<size/2 ; i++){
+           int temp = q.front();
+           q.pop();
+           second.push(temp);
+        }
+        // now merge the two halves in 
+        // fist original queue
+        for(int i=0 ;i<size/2 ;i++){
+            int temp = second.front();
+            second.pop();
+            q.push(temp);
+            temp = q.front();
+            q.pop();
+            q.push(temp);
+        }
+        while(!q.empty()){
+            int ele = q.front();
+            q.pop();
+            ans.push_back(ele);
+        }
+        return ans;
+    }
+};
