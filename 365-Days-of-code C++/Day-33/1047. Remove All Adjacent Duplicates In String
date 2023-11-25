@@ -1,0 +1,23 @@
+class Solution {
+public:
+    string removeDuplicates(string s) {
+        stack<char> st;
+        for(auto ch:s){
+            if(!st.empty() && ch == st.top()){
+                //pair mil gya remove kardo
+                st.pop();
+            }
+            else {
+                st.push(ch);
+            }
+        }
+        string ans;
+        while(!st.empty()){
+            ans += st.top();
+            st.pop();
+        }
+        // lekin ab reverse me hogya bcz stack 
+        reverse(ans.begin(),ans.end());
+        return ans;
+    }
+};
