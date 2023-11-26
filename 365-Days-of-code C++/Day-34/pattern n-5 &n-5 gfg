@@ -1,0 +1,42 @@
+class Solution{
+public:
+    
+    void add_five(vector<int> &ans , int &N,int &temp){
+        
+        if(temp<N){
+            ans.push_back(temp);
+            temp = temp+5;
+            add_five(ans,N,temp);
+        }
+        else {
+            return;
+        }
+       
+    }
+    
+    void sub_five(vector<int> &ans , int &N , int &temp){
+        
+        if(temp>0){
+            ans.push_back(temp);
+            temp = temp-5;
+            sub_five(ans,N,temp);
+        }
+        else {
+            return;
+        }
+    }
+    
+    vector<int> pattern(int N){
+        // recursion ka use karenge hum
+        int temp = N;
+        vector<int> ans;
+        // recursion for n-5
+        sub_five(ans,N,temp);
+        
+        // recursion for n+5 
+        add_five(ans,N,temp);
+        ans.push_back(N);
+        
+        return ans;
+    }
+};
