@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        vector<int> ans;
+        deque<int> dq;
+        // first window ko process karo 
+        for(int i=0 ;i<k;i++){
+            int ele = nums[i];
+            while(!dq.empty()  && ele > nums[dq.back()]){
+                dq.pop_back();
+            }
+            dq.push_back(i);
+        }
+        // remaining window ko process karo 
+        //  add , subtract 
+
+        for(int i=k ;i<nums.size(); i++){
+            // ans store kardo
+            ans.push_back(nums[dq.front()]);
+
+            // remove out of range 
+            if( !dq.empty() && i-dq.front() >=k){
+                dq.pop_front();
+            }
+
+            // chote element pop kardo 
+            int ele =nums[i];
+            while(!dq.empty()  && ele > nums[dq.back()]){
+                dq.pop_back();
+            }
+            // addition kardo 
+            dq.push_back(i);
+        }
+        ans.push_back(nums[dq.front()]);
+        return ans;
+    }
+};
