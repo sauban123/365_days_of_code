@@ -1,0 +1,25 @@
+
+bool searchInBST(Node* root, int target) {
+	//base case
+	if(root == NULL) {
+		return false;
+	}
+
+	//1 case mujhe solve krna h 
+	if(root->data == target ) {
+		return true;
+	}
+
+	//baaaki recursion sambhal lega 
+	//left ya right
+	bool leftAns = false;
+	bool rightAns = false;
+	if(target > root->data) {
+		rightAns = searchInBST(root->right, target);
+	}
+	else {
+		leftAns = searchInBST(root->left, target);
+	}
+
+	return leftAns || rightAns;
+}
