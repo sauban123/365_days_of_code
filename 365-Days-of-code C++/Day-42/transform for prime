@@ -1,0 +1,32 @@
+bool isprime(int num) // check prime
+    {
+        for(int i=2;i<num;i++)
+        {
+            if(num%i==0)
+            {
+                return false;
+            }
+        }
+          return true;
+    }
+    int minNumber(int arr[],int N)
+    {
+        int sum=0;
+        for(int i=0;i<N;i++)
+        {
+            sum+=arr[i];
+        }
+        int temp=sum;
+        if(isprime(sum)==true)
+        {
+            return 0;
+        }
+       bool x=false;
+       while(x!=true)
+       {
+           ++sum;
+           x=isprime(sum);
+       }
+       return abs(temp-sum);
+    }
+};
