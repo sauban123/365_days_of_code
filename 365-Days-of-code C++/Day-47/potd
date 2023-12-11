@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int findSpecialInteger(vector<int>& arr) {
+        int size = arr.size();
+        map <int,int> mp;
+        int count = ( .25*size );
+        for(auto ele :arr){
+            mp[ele]++;
+        }
+        for( auto &num :mp){
+            if(num.second >count){
+                return num.first;
+            }
+        }
+        return -1;
+    }
+};
