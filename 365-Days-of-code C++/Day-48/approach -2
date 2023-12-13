@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int colcount(int row,int col,vector<vector<int>>& mat,int i,int j){
+        int count =0;
+        for(int k=0 ;k<row;k++){
+            if(mat[k][j] == 1){
+                count++;
+            }
+        }
+        return count;
+    }
+    int rowcount(int row,int col,vector<vector<int>>& mat,int i,int j){
+        int count =0;
+        for(int l=0 ;l<col;l++){
+            if(mat[i][l] == 1){
+                count++;
+            }
+        }
+        return count;
+    }
+    int numSpecial(vector<vector<int>>& mat) {
+        int row = mat.size();
+        int col = mat[0].size();
+        int count =0;
+        for(int i = 0 ;i<row;i++){
+            for(int j=0 ;j<col;j++){
+                if(mat[i][j] == 1){
+                    if(rowcount(row,col,mat,i,j) + colcount(row,col,mat,i,j)==2){
+                        count++;
+                    }
+                }
+            }
+        } 
+        return count; 
+    }
+};
