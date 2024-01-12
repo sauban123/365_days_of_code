@@ -1,0 +1,67 @@
+class Info{
+    public:
+    int data;
+    int rowIndex;
+    int colIndex;
+    Info(int a , int b, int c ){
+        this->data = a ;
+        this ->rowIndex = b;
+        this->colIndex = c;
+    }
+}; // class me pollen jaroor lagaye 
+class compare{
+    public:
+    bool operator()(Info* a, Info* b){  // we have to compare the Info
+        return a->data > b->data;
+    }
+};
+class Solution {
+public:
+    vector<int> smallestRange(vector<vector<int>>& nums) {
+        priority_queue<Info* , vector<Info*> , compare>pq;
+        int maxi = INT_MIN;
+        int mini  = INT_MAX;
+        // process the first k elements 
+        for(int i =0 ;i<nums.size();i++){
+            int element = nums[i][0];
+            int row = i;
+            int col =0;
+            Info* temp = new Info(element , row, col);
+            pq.push(temp);
+            maxi = max(maxi , element);
+            mini = min(mini , element);
+        } 
+        int ansStart = mini;
+        int ansEnd  =maxi;
+        while(!pq.empty()){
+            Info* topNode = pq.top();
+            int topData = topNode->data;
+            int topRow = topNode->rowIndex;
+            int topCol = topNode->colIndex;
+            pq.pop();
+            // min heap top me mini padi hai
+            mini = topNode->data;
+            // now comapre for smaller range 
+            if( (maxi-mini)< (ansEnd - ansStart) ){
+                ansStart = mini;
+                ansEnd = maxi;
+            } 
+            // insertion karna hia agar NUll na hui ho 
+            if(topCol +1 <nums[topRow].size()){
+                int newElement = nums[topRow][topCol+1];
+                maxi = max(maxi, newElement);
+                // ise insert bhi karado pq me (min heap me )
+                Info* newInfo = new Info(newElement, topRow, topCol+1);
+                pq.push(newInfo);
+            }
+            else{
+                // matlab age koi element nahi mila push karne ko yah par ruk jao ab 
+                break;
+            }
+        }
+        vector<int> ans;
+        ans.push_back(ansStart);
+        ans.push_back(ansEnd);
+        return ans;
+    }
+};
