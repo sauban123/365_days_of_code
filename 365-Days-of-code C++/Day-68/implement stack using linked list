@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Stack {
+    struct Node* top;
+};
+
+
+void initializeStack(struct Stack* stack) {
+    stack->top = NULL;
+}
+
+// check if stack empty 
+int isEmpty(struct Stack* stack) {
+    return (stack->top == NULL);
+}
+
+// push an element 
+void push(struct Stack* stack, int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("OF\n");
+        return;
+    }
+
+    newNode->data = value;
+    newNode->next = stack->top;
+    stack->top = newNode;
+}
+
+//  pop an element 
+int pop(struct Stack* stack) {
+    if (isEmpty(stack)) {
+        printf("UD\n");
+        return -1;
+    }
+
+    struct Node* temp = stack->top;
+    int poppedValue = temp->data;
+    stack->top = temp->next;
+    free(temp);
+
+    return poppedValue;
+}
+
+//  peek the top element
+void peek(struct Stack* stack) {
+    if (isEmpty(stack)) {
+        printf("UD\n");
+        return;
+    }
+
+    printf("%d\n", stack->top->data);
+}
+
+int main() {
+    struct Stack stack;
+    initializeStack(&stack);
+
+    char operation[5];
+    int value;
+
+    while (scanf("%s", operation) != EOF) {
+        if (operation[0] == 'p' && operation[1] == 'u') {
+            // Push 
+            scanf("%d", &value);
+            push(&stack, value);
+        } else if (operation[0] == 'p' && operation[1] == 'o') {
+            // Pop 
+            int poppedValue = pop(&stack);
+            if (poppedValue != -1) {
+                printf("%d\n", poppedValue);
+            }
+        } else if (operation[0] == 'p' && operation[1] == 'e') {
+            // Peek 
+            peek(&stack);
+        }
+    }
+
+    return 0;
+}
