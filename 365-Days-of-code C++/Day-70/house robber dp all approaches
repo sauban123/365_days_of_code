@@ -1,0 +1,86 @@
+class Solution {
+public:
+    int solve(vector<int> &nums , int size,  int index){
+        if(index >= size){
+            return 0;
+        }
+        // chori karlo 
+        int option1 = nums[index] + solve(nums, size, index+2);
+        // chori na karo 
+        int option2 = 0 + solve(nums ,size, index+1);
+
+        int finalans = max(option1, option2);
+        return finalans;
+    } 
+
+    // dp top down apraoch 
+    int solveUsingMemoisation(vector<int>& nums, int index , vector<int> &dp){
+        if(index >= nums.size()){
+            return 0;
+        }
+        if(dp[index] != -1){
+            return dp[index];
+        }
+
+        // chori karlo 
+        int option1 = nums[index] + solveUsingMemoisation(nums, index+2, dp);
+        // chori na karo 
+        int option2 = 0 + solveUsingMemoisation(nums ,index+1, dp);
+
+        dp[index] = max(option1, option2);
+        return dp[index];
+    }
+
+
+    int solveUsingTabulation(vector<int> &nums){
+        int n = nums.size();
+        // step 1
+        vector<int> dp(n, -1);
+        // step 2 
+        dp[n-1] = nums[n-1];
+        for(int i =n-2 ;i>=0 ;i--){
+            int tempAns = 0;
+            if(i+2 < n){
+                tempAns =dp[i+2];
+            }
+            int include = nums[i] +  tempAns;
+            int exclude = dp[i+1];
+            dp[i] = max(include, exclude);
+        }
+        return dp[0];
+    } 
+
+    int solveUsingOptiSpace(vector<int> &nums){
+        int n = nums.size();
+        int  prev = nums[n-1];
+        int next =0;
+        int curr;
+        for(int i =n-2 ;i>=0 ;i--){
+            int tempAns = 0;
+            if(i+2 < n){
+                tempAns =next;
+            }
+            int include = nums[i] +  tempAns;
+            int exclude = prev;
+            curr = max(include, exclude);
+            next = prev;
+            prev = curr;
+        }
+        return prev;
+    } 
+
+    int rob(vector<int>& nums) {
+        // int size = nums.size();
+        //  int index =0;
+        // int ans = solve(nums, size, index);
+
+        // create dp array
+        // int index =0;
+        // int n = nums.size();
+        // vector<int> dp(n+1,-1); // yaha par (n) se bhi baat ban jayegi  (n+1) ki kagah
+        // int ans = solveUsingMemoisation(nums, index, dp);
+
+        int ans = solveUsingOptiSpace(nums);
+        return ans; 
+    }
+};
