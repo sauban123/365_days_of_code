@@ -1,0 +1,15 @@
+ int solveUsingRecursion(int n , int k){
+        if(n==1){
+            return k;
+        }
+        if(n==2){
+            return k+k*(k-1);
+        }
+        int result = (solveUsingRecursion(n-1,k) + solveUsingRecursion(n-2,k))* (k-1);
+        return result;
+    }
+    long long countWays(int n, int k){
+        // code here
+        int ans = solveUsingRecursion(n,k);
+        return ans;
+    }
