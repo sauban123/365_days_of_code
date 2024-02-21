@@ -1,0 +1,94 @@
+class Solution {
+public:
+    int solveUsingRecursion(vector<int>& coins, int amount) {
+        // base case
+        if (amount == 0) {
+            return 0;
+        }
+        int mini = INT_MAX;
+        // recursive relation
+        for (int i = 0; i < coins.size(); i++) {
+            // call recursion only for valid amount
+            if (amount - coins[i] >= 0) {
+                int recursionKaAns =
+                    solveUsingRecursion(coins, amount - coins[i]);
+                // if valid answer
+                if (recursionKaAns != INT_MAX) {
+                    int ans = 1 + recursionKaAns;
+                    mini = min(mini, ans);
+                }
+            }
+        }
+        return mini;
+    }
+
+    int solveMemoisation(vector<int> &coins , int amount, vector<int> &dp){
+        // base case 
+        if(amount == 0){
+            return 0;
+        }
+        if(dp[amount] != -1){
+            return dp[amount];
+        }
+        int mini = INT_MAX;
+        // recursive relation
+        for (int i = 0; i < coins.size(); i++) {
+            // call recursion only for valid amount
+            if (amount - coins[i] >= 0) {
+                int recursionKaAns =
+                    solveMemoisation(coins, amount - coins[i],dp);
+                // if valid answer
+                if (recursionKaAns != INT_MAX) {
+                    int ans = 1 + recursionKaAns;
+                    mini = min(mini, ans);
+                }
+            }
+        }
+        dp[amount] = mini;
+        return dp[amount];
+        
+    }
+
+    int solveUsingTabulation(vector<int> &coins , int amount){
+        // create dp array
+        int n = amount;
+        vector<int> dp(n+1,INT_MAX); // yaha par INT_MAX karna padega galti 
+        // base case analyse karo 
+        dp[0] = 0;
+        //for loop
+        for(int value = 1 ;value <=amount ;value++){
+            int mini = INT_MAX;
+            // recursive relation
+            for (int i = 0; i < coins.size(); i++) {
+                // call recursion only for valid amount
+                if (value - coins[i] >= 0) {
+                    int recursionKaAns =
+                    dp[value - coins[i]];
+                    // if valid answer
+                    if (recursionKaAns != INT_MAX) {
+                        int ans = 1 + recursionKaAns;
+                        mini = min(mini, ans);
+                    }
+                }    
+            }
+            dp[value] = mini;  // yaha par value se khel rahe hai 
+              // value par store karege   
+        }
+        return dp[amount];  
+        // yaha par past index par ans hai to dp[amount] return karaya
+    }
+    int coinChange(vector<int>& coins, int amount) {
+        // int ans = solveUsingRecursion(coins, amount);
+
+        // create dp 
+        // int n = amount;
+        // vector<int> dp(n+1, -1);
+        int ans = solveUsingTabulation(coins, amount);
+        if (ans == INT_MAX) {
+            return -1;
+        }
+        else {
+            return ans;
+        }
+    }
+};
