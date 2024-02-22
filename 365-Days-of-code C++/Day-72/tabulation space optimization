@@ -1,0 +1,24 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+int solveUsingTabulationSO(int n, int k){
+        int prev2 = k;
+        int prev1 = k+k*(k-1);
+        int curr;
+        for(int i =3 ;i<=n ;i++){
+            curr = (prev1 + prev2)* (k-1);
+            // update kardo 
+            prev2 = prev1;
+            prev1 = curr;
+        }
+        return curr;
+}
+
+int main(){
+    int n =3;
+    int k =3;
+    int ans = solveUsingTabulationSO(n,k);
+    cout<< ans   <<endl;
+    return 0;
+}
