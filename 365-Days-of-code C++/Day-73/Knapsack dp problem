@@ -1,0 +1,74 @@
+
+    
+    int solveUsingRecursion(int W, int wt[], int val[], int n, int index){
+        // base case
+        if(index >= n){
+            return 0;
+        }
+        
+        int include =0;
+        if(W - wt[index] >= 0){
+            include = val[index] + solveUsingRecursion(W-wt[index] ,wt,val,n,index+1);
+        }
+        int exclude = 0+ solveUsingRecursion(W ,wt,val,n,index+1);
+        int result= max(include, exclude);
+        return result;
+    }
+    
+    
+    
+    
+    int solveUsingMem(int W, int wt[], int val[], int n, int index,vector<vector<int>> &dp){
+        // base case
+        if(index >= n){
+            return 0;
+        }
+        if(dp[W][index] != -1){
+            return dp[W][index];
+        }
+        
+        int include =0;
+        if(W - wt[index] >= 0){
+            include = val[index] + solveUsingRecursion(W-wt[index] ,wt,val,n,index+1);
+        }
+        int exclude = 0+ solveUsingRecursion(W ,wt,val,n,index+1);
+        dp[W][index] = max(include, exclude);
+        return dp[W][index];
+    }
+    
+    
+    
+    int solveUsingTabulation(int W, int wt[], int val[], int n){
+       vector<vector<int>> dp(W+1, vector<int>(n+1,-1));
+        
+        for(int row=0 ;row<=W;row++){
+            dp[row][n] =0;
+        }
+        
+        for(int i=0 ;i<=W;i++){
+            for(int j=n-1;j>=0;j--){
+                int include =0;
+                if(wt[j] <= i){
+                    include = val[j] + dp[ i-wt[j] ] [j+1];
+                }
+                int exclude = 0 + dp[i][j+1];
+                dp[i][j] = max(include, exclude);
+            }
+            
+        }
+        return dp[W][0];
+    }
+    
+    
+    //Function to return max value that can be put in knapsack of capacity W.
+    int knapSack(int W, int wt[], int val[], int n) 
+    { 
+       // Your code here
+    //   vector<vector<int> > dp(W+1, vector<int>(n+1, -1));
+    //   int index =0;
+    //   int ans  = solveUsingMem(W,wt, val, n,index, dp);
+    //   return ans;
+    
+         return solveUsingTabulation(W,wt,val,n);
+    }
+};
