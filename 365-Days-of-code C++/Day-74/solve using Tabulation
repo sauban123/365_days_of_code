@@ -1,0 +1,25 @@
+ int solveUsingTabulation(string &a , string &b){
+        vector<vector<int> > dp(a.size()+1, vector<int>(b.size()+1,0));
+        // isme i and j ki direction opposite kardo jo memoisation me thi 
+        for(int i_index =a.size()-1;i_index>=0;i_index--){
+            for(int j_index = b.size()-1 ; j_index>=0;j_index--){
+                int ans =0;
+                if(a[i_index] == b[j_index]){
+                    ans = 1 + dp[i_index+1][j_index+1];
+                }
+                else{
+                // two cases 
+                    ans  = 0+ max(dp[i_index][j_index+1] ,dp[i_index+1][j_index] );
+                }
+                dp[i_index][j_index] = ans;
+            }
+        }
+        return dp[0][0];
+    }
+    int longestCommonSubsequence(string text1, string text2) {
+       // int i=0,j=0;
+       // vector<vector<int> > dp(text1.size()+1, vector<int>(text2.size()+1,-1));
+        int ans = solveUsingTabulation(text1, text2);
+        return ans;
+    }
+};
