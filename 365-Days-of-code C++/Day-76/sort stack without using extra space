@@ -1,0 +1,19 @@
+void sortedInsert(stack<int> &s, int element) {
+    if (s.empty() || element > s.top()) {
+        s.push(element);
+    } else {
+        int temp = s.top();
+        s.pop();
+        sortedInsert(s, element);
+        s.push(temp);
+    }
+}
+// main code is from here 
+void SortedStack :: sort() {
+    if (!s.empty()) {
+        int temp = s.top();
+        s.pop();
+        sort();
+        sortedInsert(s, temp);
+    }
+}
