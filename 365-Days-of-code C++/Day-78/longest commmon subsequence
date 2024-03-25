@@ -1,0 +1,89 @@
+class Solution {
+public:
+    int solveUsingRecursion(vector<int>& num, int curr, int prev) {
+       //base case
+       if(curr >= num.size() ) {
+           return 0;
+       } 
+
+       int include = 0;
+       if(prev == -1 || num[curr] > num[prev] ) {
+           include = 1 + solveUsingRecursion(num, curr+1, curr);// prev ko curr kara hai 
+       }
+       int exclude  = 0 + solveUsingRecursion(num, curr+1, prev);
+       int ans = max(include, exclude);
+       return ans;
+    }
+
+// isme index shifting use hui hai prev -1 par tha isliye +1 kar denge prev me -1 index 
+// access nhi kar skte hai 
+// dp array me sirf store and aceess wale  me hi prev +1 karenge 
+    int solveUsingMem(vector<int>& num, int curr, int prev, vector<vector<int> >& dp) {
+       //base case
+       if(curr >= num.size() ) {
+           return 0;
+       } 
+       //if ans already exists
+       if(dp[curr][prev+1] != -1 ) {
+           return dp[curr][prev+1];
+       }
+
+       int include = 0;
+       if(prev == -1 || num[curr] > num[prev] ) {
+           include = 1 + solveUsingMem(num, curr+1, curr,dp);
+       }
+       int exclude  = 0 + solveUsingMem(num, curr+1, prev,dp);
+       dp[curr][prev+1] = max(include, exclude);
+       return dp[curr][prev+1];
+    }
+
+   int solveUsingTabulation(vector<int>& num ) {
+        int n = num.size();
+        vector<vector<int> > dp(n+1, vector<int>(n+1, 0));
+
+        for(int curr_index=n-1; curr_index>=0; curr_index--) {
+            for(int prev_index=curr_index-1; prev_index >= -1; prev_index--) {
+
+                int include = 0;
+                if(prev_index == -1 || num[curr_index] > num[prev_index] ) {
+                    include = 1 + dp[curr_index+1][curr_index+1];
+                }
+                int exclude  = 0 + dp[curr_index+1][prev_index+1];
+                dp[curr_index][prev_index+1] = max(include, exclude);
+
+            }
+        }
+        return dp[0][0];
+    }
+    int solveUsingTabulationSO(vector<int>& num ) {
+        int n = num.size();
+        vector<int> currRow(n+1,0);
+        vector<int> nextRow(n+1,0);
+    
+        for(int curr_index=n-1; curr_index>=0; curr_index--) {
+            for(int prev_index=curr_index-1; prev_index >= -1; prev_index--) {
+
+                int include = 0;
+                if(prev_index == -1 || num[curr_index] > num[prev_index] ) {
+                    include = 1 + nextRow[curr_index+1];
+                }
+                int exclude  = 0 + nextRow[prev_index+1];
+                currRow[prev_index+1] = max(include, exclude);
+            }
+            // shifting kardo 
+            nextRow = currRow;
+        }
+        return nextRow[0];
+    }
+
+    
+    int lengthOfLIS(vector<int>& nums) {
+      int prev =-1;
+      int curr = 0;
+    //   int n = nums.size();
+    //   vector<vector<int>> dp(n+1, vector<int>(n+1,-1));
+    //   int ans = solveUsingMem(nums, curr, prev,dp);
+    int ans = solveUsingTabulationSO(nums);
+      return ans;
+    }
+};
