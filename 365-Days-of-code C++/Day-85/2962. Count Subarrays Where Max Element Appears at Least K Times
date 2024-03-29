@@ -1,0 +1,24 @@
+class Solution {
+public:
+    long long countSubarrays(vector<int>& nums, int k) {
+        long long max_num = *max_element(nums.begin(),nums.end());
+        long long count =0;
+        long long  l=0 , r=0, ans=0;
+        while(r<nums.size()){
+            // count increament karo 
+            if(nums[r] == max_num){
+                count++;
+            }
+            while(count >= k){
+                // pehle count decrem karo 
+                if(nums[l] == max_num){
+                    count--;
+                }
+                l++;
+                ans += nums.size() - r;  // yahi faste hai 
+            }
+            r++;
+        }
+        return ans;
+    }
+};
