@@ -1,0 +1,23 @@
+class Solution {
+public:
+    long long countSubarrays(vector<int>& nums, int minK, int maxK) {
+        long long ans =0; // we have to return in long long type 
+        int maxi =-1, mini = -1;  // in ths we store index 
+        int n = nums.size();
+        int l =0, r=0;
+        while(r<n){
+            int x = nums[r];
+            if(x<minK || x > maxK ) { // x exceed the bound skip kardo 
+                l = r+1;
+                r++;
+                continue;
+            }
+            if(x == maxK)  maxi = r; // pos for maxK
+            if(x == minK)  mini = r;  // pos for minK
+            ans += max( (min(maxi,mini) -l+1) , 0); // yahi main logic hai 
+            // dry run karo tab samajh ayega learn it 
+            r++;
+        } 
+        return ans;
+    }
+};
