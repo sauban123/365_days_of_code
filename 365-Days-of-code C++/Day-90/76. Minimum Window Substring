@@ -1,0 +1,58 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        int len1 = s.size();
+        int len2 = t.size();
+        int start =0; // minimize  karne me use hoga 
+        // invalid case
+        if(len2 >len1){
+            return "";
+        } 
+        int ansIndex =-1;
+        int ansLen =INT_MAX;
+        unordered_map<int, int> sMap;
+        unordered_map<int, int> tMap;
+        // store the freq pattern string
+        for(auto ch : t){
+            tMap[ch]++;
+        }
+        // initialize the count variable jo count karega s string ke variable ko
+        // t string me jab count ki len s wali string ke equl hoga tab minimize karlo &store
+        int count =0; 
+        int e =0;
+        while(e< len1){
+            char ch = s[e];
+            // update the freq in sMap
+            sMap[ch]++;
+            if(sMap[ch] <= tMap[ch]){
+                // valid character 
+                count ++;
+            }
+            // valid case mil gya 
+            if(count == len2){
+                // window found ho gyi hai jisme poora pattern exist karte hai 
+                // minimize kardo  window ko 
+                // jo charter left side me extra hai use remove kardo
+                while(sMap[s[start]] > tMap[s[start]]){
+                    sMap[s[start]]--;
+                    start ++;
+                }
+                // ans nikalo
+                int windowLen = 0;
+                windowLen = e-start+1;
+                if(windowLen < ansLen){
+                    ansLen = windowLen;
+                    ansIndex = start;
+                }
+            }
+            // explore e
+            e++;
+        }
+        if(ansIndex ==-1){
+            return "";
+        }
+        else{
+            return s.substr(ansIndex, ansLen);
+        }
+    }
+};
