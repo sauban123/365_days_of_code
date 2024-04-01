@@ -1,0 +1,24 @@
+class Solution {
+public:
+     
+    void solve(int &numBottles, int &numExchange,int &drink, int &empty ){
+        if(numBottles <=0 ){
+            return;
+        }
+        drink +=numBottles;
+        empty +=numBottles;
+        numBottles =0;
+        while(empty - numExchange >=0){
+            empty -= numExchange;
+            numBottles++;
+            numExchange +=1;
+        }
+        solve(numBottles, numExchange, drink, empty);
+    }
+    int maxBottlesDrunk(int numBottles, int numExchange) {
+        int drink = 0;
+        int empty =0;
+        solve(numBottles,numExchange, drink, empty);
+        return drink;
+    }
+};
