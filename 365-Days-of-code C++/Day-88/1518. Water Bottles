@@ -1,0 +1,24 @@
+class Solution {
+public:
+    void solve(int &numBottles, int &numExchange,int & drink,int & empty ){
+        if(numBottles <=0){ // base case ke bina bhi chal jayega 
+            return;
+        }
+        while(numBottles >0 ){
+            drink += numBottles;
+            empty += numBottles;
+            numBottles =0;
+            while(empty - numExchange >=0){
+                empty -= numExchange;
+                numBottles++;
+            }
+            solve(numBottles, numExchange, drink, empty);
+        }
+    }
+    int numWaterBottles(int numBottles, int numExchange) {
+        int drink =0;
+        int empty =0;
+        solve(numBottles, numExchange, drink, empty);
+        return drink;
+    }
+};
