@@ -1,0 +1,20 @@
+class Solution {
+public:
+    long long countAlternatingSubarrays(vector<int>& nums) {
+        long long count =0;
+        int l=0;
+        int r=0;
+        while (r < nums.size()) {
+            if( r !=0 &&  nums[r] != nums[r-1]) {
+                count +=(r-l+1);
+            }
+            else {
+                // previous same mil jae
+                l=r;
+                count++;
+            }
+            r++;
+        }
+        return count;
+    }
+};
