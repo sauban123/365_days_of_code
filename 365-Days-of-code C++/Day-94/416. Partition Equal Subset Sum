@@ -1,0 +1,57 @@
+class Solution {
+public:
+    bool solveUsingRecurion(vector<int> & nums , int index, int sum , int target){
+        // base case
+        if(index >= nums.size() ){
+            return 0;  // or return false
+        }
+        if(sum > target ){
+            return 0;  // or return false
+        }
+        if(sum == target){
+            return true;
+        }
+        bool include = solveUsingRecurion(nums, index+1, sum + nums[index], target);
+        bool exclude = solveUsingRecurion(nums, index+1 , sum , target);
+
+        return (include || exclude);
+    }
+
+    bool solveUsingMem(vector<int> & nums , int index, int sum , int target,vector<vector<int>> &dp){
+        // base case
+        if(index >= nums.size() ){
+            return 0;  // or return false
+        }
+        if(sum > target ){
+            return 0;  // or return false
+        }
+        if(sum == target){
+            return true;
+        }
+        if(dp[index][sum] != -1){
+            return dp[index][sum];
+        }
+        bool include = solveUsingMem(nums, index+1, sum + nums[index], target,dp);
+        bool exclude = solveUsingMem(nums, index+1 , sum , target,dp);
+
+        return dp[index][sum] = (include || exclude);
+    }
+
+    bool canPartition(vector<int>& nums) {
+        int index =0;
+        int totalSum =0;
+        for(int i=0 ;i<nums.size();i++){
+            totalSum += nums[i];
+        }
+        if(totalSum & 1){
+            // odd hai no partition possible
+            return false;
+        }
+        int currSum =0;
+        int target = totalSum /2;
+        int n = nums.size();
+        vector<vector<int>> dp(n+1,vector<int> (target+1,-1)); // <int> ki kagah <bool> se kr skte
+        bool ans = solveUsingMem(nums , index, currSum , target,dp);
+        return ans;
+    }
+};
