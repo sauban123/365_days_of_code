@@ -1,0 +1,42 @@
+class Solution {
+public:
+
+    bool soveUsingTabulation(vector<int> & nums, int target){
+        int n = nums.size();
+        vector<vector<int> > dp(n+2,vector<int> (target+1 ,0)); 
+        for(int row =0; row<=n;row++){ // = nhi lagate galti
+            dp[row][target] =1;
+        }
+        for(int ind = n-1 ;ind>=0 ;ind--){ // galti (n-1) nhi krte hai 
+            for(int s = target ;s>=0 ;s--){
+                bool include =0;
+                if(s + nums[ind] <= target){
+                    // out of range ja rha hai 
+                    include = dp[ind+1][s + nums[ind]];
+                }
+                bool exclude = dp[ind+1][s];
+                dp[ind][s] = (include || exclude);
+            }
+        }
+        return dp[0][0];
+    }
+
+    bool canPartition(vector<int>& nums) {
+        int index =0;
+        int totalSum =0;
+        for(int i=0 ;i<nums.size();i++){
+            totalSum += nums[i];
+        }
+        if(totalSum & 1){
+            // odd hai no partition possible
+            return false;
+        }
+        int currSum =0;
+        int target = totalSum /2;
+        int n = nums.size();
+        vector<vector<int>> dp(n+1,vector<int> (target+1,-1)); // <int> ki kagah <bool> se kr skte
+        // bool ans = solveUsingMem(nums , index, currSum , target,dp);
+        bool ans = soveUsingTabulation(nums,target);
+        return ans;
+    }
+};
