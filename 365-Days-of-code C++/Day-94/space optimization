@@ -1,0 +1,43 @@
+   bool soveUsingTabulationS0(vector<int> & nums, int target){
+        int n = nums.size();
+        vector<int> curr(target+1,0);
+        vector<int> next(target+1,0);
+       // target wale par 1 karna hi 
+       curr[target] = 1;
+       next[target] = 1;
+       // major galti n par already zero build hai to n-1 se start karo
+        for(int ind = n-1 ;ind>=0 ;ind--){ 
+            for(int s = target ;s>=0 ;s--){
+                bool include =0;
+                if(s + nums[ind] <= target){
+                    // out of range ja rha hai 
+                    include = next[s + nums[ind]];
+                }
+                bool exclude = next[s];
+                curr[s] = (include || exclude);
+            }
+            // shifting kardo
+            next = curr;
+        }
+        return next[0];
+    }
+
+    bool canPartition(vector<int>& nums) {
+        int index =0;
+        int totalSum =0;
+        for(int i=0 ;i<nums.size();i++){
+            totalSum += nums[i];
+        }
+        if(totalSum & 1){
+            // odd hai no partition possible
+            return false;
+        }
+        int currSum =0;
+        int target = totalSum /2;
+        int n = nums.size();
+        vector<vector<int>> dp(n+1,vector<int> (target+1,-1)); // <int> ki kagah <bool> se kr skte
+        // bool ans = solveUsingMem(nums , index, currSum , target,dp);
+        bool ans = soveUsingTabulationS0(nums,target);
+        return ans;
+    }
+};
