@@ -1,0 +1,61 @@
+class Solution {
+public:
+    long long int mod = 1000000007;
+    int solveUsingTabulation(int n, int k, int target, int diceUsed, int currSum){
+
+        vector<vector<int> > dp(n+1, vector<int> (target+1,0));
+        // zero wala base case alredy solve hai 
+
+        dp[n][target] = 1;
+        // n ke liye alreasy solve ho gya hai to hum n-1 se loop chlayenge
+
+        for(int dice =n-1 ;dice >=0 ;dice--){ // galti (n-1) se start karna hai 
+            for(int sum =target ;sum >=0 ; sum--){
+
+                int ans = 0;
+                for (int face = 1; face <= k; face++) {
+                    int recAns= 0;
+                    if(sum +face <= target ){
+                        recAns = dp[dice + 1][sum + face]% mod; // dice agar  n se start karenge 
+                            // yaha upar dice = n+1 ho rha out bond ho jaega 
+                    }
+                    ans  = (ans % mod  + recAns) %mod;
+                }
+                dp[dice][sum] = ans;
+            }
+        }
+        return dp[0][0];
+    }
+
+    int solveUsingTabulationS0(int n, int k, int target, int diceUsed, int currSum){
+
+       vector<int> curr(target+1,0);
+       vector<int> next(target+1,0);
+
+        next[target] = 1;
+
+        for(int dice =n-1 ;dice >=0 ;dice--){ // galti (n-1) se start karna hai 
+            for(int sum =target ;sum >=0 ; sum--){
+                int ans = 0;
+                for (int face = 1; face <= k; face++) {
+                    int recAns= 0;
+                    if(sum +face <= target ){
+                        recAns = next[sum + face]% mod; 
+                    }
+                    ans  = (ans % mod  + recAns) %mod;
+                }
+                curr[sum] = ans;
+            }
+            // shifting karna mat bhoolana 
+            next = curr;
+        }
+        return next[0];
+    }
+    int numRollsToTarget(int n, int k, int target) {
+        int diceUsed = 0;
+        int currSum = 0;
+        // vector<vector<int>> dp(n + 1, vector<int>(target + 1, -1));
+        int ans = solveUsingTabulationS0(n, k, target, diceUsed, currSum);
+        return ans;
+    }
+};
