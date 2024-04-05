@@ -1,0 +1,54 @@
+class Solution {
+public:
+    long long mod = 1000000007;
+    int solveUsingRecursion(int n, int k, int target){
+        if(n==0 && target ==0){
+            return 1;
+        }
+        if(n==0 && target != 0){
+            return 0;
+        }
+        if(n!=0 && target ==0){
+            return 0;
+        }
+
+        int ans = 0;
+        for(int i=1 ;i<=k ;i++){
+            ans += solveUsingRecursion(n-1, k, target-i);
+        }
+        return ans;
+    }
+
+    int solveUsingMem(int n, int k, int target,vector<vector<int>> &dp){
+        if(n==0 && target ==0){
+            return 1;
+        }
+        if(n==0 && target != 0){
+            return 0;
+        }
+        if(n!=0 && target ==0){
+            return 0;
+        }
+        // if alreasy exist 
+        if(dp[n][target] != -1){
+            return dp[n][target];
+        }
+
+        int ans = 0;
+        for(int i=1 ;i<=k ;i++){
+            int recAns =0;
+            if(target-i >=0){
+                // kyunki index negative me nhi access kr skte isliye bound check 
+                recAns = solveUsingMem(n-1, k, target-i,dp) % mod ;
+            }
+            ans = (ans % mod + recAns) % mod ;
+        }
+        dp[n][target] = ans;
+        return dp[n][target];
+    }
+    int numRollsToTarget(int n, int k, int target) {
+        vector<vector<int>> dp(n+1,vector<int>(target+1,-1));
+        int ans = solveUsingMem(n, k, target,dp);
+        return ans;
+    }
+};
