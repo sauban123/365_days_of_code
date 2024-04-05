@@ -1,0 +1,29 @@
+class Solution {
+public:
+    string makeGood(string s) {
+        // base case
+        if(s.size() <=1){
+            return s;
+        }
+        stack<char> st;
+        
+        for(auto ch : s){
+            if(!st.empty() && abs(st.top() - ch)==32){// main logic
+                // remove karso
+                st.pop();
+            }
+            else {
+                // insert karso 
+                st.push(ch);
+            }
+        }
+        string ans ="";
+        while(!st.empty()){
+            char ch = st.top();
+            st.pop();
+            ans += ch;
+        }
+        reverse(ans.begin(),ans.end());
+        return ans;
+    }
+};
