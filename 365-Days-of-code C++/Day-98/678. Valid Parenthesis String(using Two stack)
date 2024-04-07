@@ -1,0 +1,50 @@
+class Solution {
+public:
+    bool checkValidString(string s) {
+       // careate two stack using open bracket index & * index 
+
+       stack<int> openBracket;
+       stack<int> asterisk;
+
+       for(int i=0 ;i<s.size();i++){
+        if(s[i] == '(' ){
+            openBracket.push(i);
+        }
+        else if(s[i] == '*'){
+            asterisk.push(i);        
+        }
+        else{
+            // hume  closed bracket mila hai
+            if(!openBracket.empty()){
+                // remove kardo 
+                openBracket.pop();
+            }
+            else  if(!asterisk.empty()){
+                asterisk.pop();
+            }
+            else
+                // dono hi empty hai aur hamare pas closed bracket hai jiska koi pair nhi mila 
+                return false;
+        }
+       } 
+       // check karo agar remaining ( and * can balance each other balance then 
+       while(!openBracket.empty() && !asterisk.empty()){
+        if(openBracket.top()  > asterisk.top()){
+            // iska matlab open bracket * ke baad hai to balance nhi kar skte 
+            return false;
+        }
+        else {
+            // balance kar skte hai 
+            openBracket.pop();
+            asterisk.pop();
+        }
+       } 
+       // check if no open bracket left means valid parenthesis 
+       if(openBracket.empty()){
+        return true;
+       }
+       else {
+        return false;
+       }
+    }
+};
