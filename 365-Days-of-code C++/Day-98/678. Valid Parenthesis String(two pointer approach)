@@ -1,0 +1,37 @@
+class Solution {
+public:
+    bool solve(string s){
+        int openCount =0;
+        int closedCount =0;
+        int length = s.size()-1;
+        for(int i=0 ;i<s.size();i++){
+            // from left traverse
+            if(s[i] == '(' || s[i]== '*'){
+                openCount++;
+            }
+            else {
+                // closed bracket 
+                openCount--;
+            }
+            
+            // travese from right 
+            if(s[length-i] == ')' || s[length-i] == '*'){
+                closedCount++;
+            }
+            else {
+                // open bracket mila 
+                closedCount--;
+            }
+            // galti loop ke andar hi check karna hai ye 
+            if(openCount <0 || closedCount <0){
+                return false;
+            }
+        }
+        // open and closed bracket koi bhi negative nhi hue 
+        return true;
+    }
+    bool checkValidString(string s) {
+        bool ans = solve(s);
+        return ans;
+    }
+};
