@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<int> deckRevealedIncreasing(vector<int>& deck) {
+        if(deck.size() <=2){
+            return deck;
+        }
+        deque<int> dq;
+        sort(deck.begin(),deck.end());
+        for(int i=deck.size()-1;i>=0 ;i--){
+            // step-> 1 
+            // push last elemetn of vector into deque
+            dq.push_front(deck[i]);
+            if(i == 0){
+                continue;  
+            }
+
+            // step -> 2 
+            // dq me last ko utha ke age laga do 
+            if(dq.size() >1){
+                int last_ele = dq.back();
+                dq.pop_back();
+                dq.push_front(last_ele);
+            }
+        }
+        int i=0 ;
+        while(!dq.empty()){
+            int ele = dq.front();
+            deck[i++] = ele;
+            dq.pop_front();
+        }
+        return deck;
+    }
+};
