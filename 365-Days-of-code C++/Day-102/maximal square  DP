@@ -1,0 +1,118 @@
+class Solution {
+public: 
+    int solve(vector<vector<char>>& matrix, int i, int j, int row, int col, int &maxi) {
+        //base case
+        if(i >= row || j>= col) {
+            return 0;
+        }
+
+        // all 3 directions 
+        int right = solve(matrix, i, j+1, row, col, maxi);
+        int diagnol = solve(matrix, i+1, j+1, row, col, maxi);
+        int down = solve(matrix, i+1, j, row, col, maxi);
+
+        //check can we build sqaure form current position or not 
+        if(matrix[i][j] == '1') {     //char vector hai isliye '1' liya 
+            int ans = 1 + min(right, min(down, diagnol));
+            //ye important hai  learn it 
+            maxi = max(maxi, ans);
+            return ans;
+
+        }
+        else {
+            //agar 0 pr hi khade ho toh answer bhi zero hoga
+            return 0;
+        }
+     }
+
+    int solveUsingMem(vector<vector<char>>& matrix, int i, int j, int row, int col, int &maxi, vector<vector<int>>& dp) {
+            //base case
+            if(i >= row || j>= col) {
+                return 0;
+            }
+            // if alresy exist 
+            if(dp[i][j] != -1){
+                return dp[i][j];
+            }
+
+            // all 3 directions 
+            int right = solveUsingMem(matrix, i, j+1, row, col, maxi,dp);
+            int diagnol = solveUsingMem(matrix, i+1, j+1, row, col, maxi,dp);
+            int down = solveUsingMem(matrix, i+1, j, row, col, maxi,dp);
+
+            //check can we build sqaure form current position or not 
+            if(matrix[i][j] == '1') {     //char vector hai isliye '1' liya 
+                dp[i][j] = 1 + min(right, min(down, diagnol));
+                //ye important hai  learn it 
+                maxi = max(maxi, dp[i][j]);
+                return dp[i][j];
+
+            }
+            else {
+                //agar 0 pr hi khade ho toh answer bhi zero hoga
+                return dp[i][j] =0;
+            }
+    }
+    
+    int solveTabulation(vector<vector<char>>& matrix, int i, int j, int row, int col, int &maxi){
+        vector<vector<int>> dp(row+1,(vector<int> (col+1,0)));
+        for(int i=row-1 ;i>=0 ;i--){
+            for(int j = col-1 ; j>=0 ;j--){
+                int right   = dp[i][j+1];
+                int diagnol = dp[i+1][j+1];
+                int down    = dp[i+1][j];
+
+                //check can we build sqaure form current position or not 
+                if(matrix[i][j] == '1') {     //char vector hai isliye '1' liya 
+                    dp[i][j] = 1 + min(right, min(down, diagnol));
+                    //ye important hai  learn it 
+                    maxi = max(maxi, dp[i][j]);
+
+                }
+                else {
+                    //agar 0 pr hi khade ho toh answer bhi zero hoga
+                    dp[i][j] =0;
+                }
+            }
+        }
+        return dp[0][0];
+    }
+
+    int solveTabulationS0(vector<vector<char>>& matrix, int i, int j, int row, int col, int &maxi){
+        vector<int> curr(col+1,0);
+        vector<int> next(col+1,0);
+        for(int i=row-1 ;i>=0 ;i--){
+            for(int j = col-1 ; j>=0 ;j--){
+                int right   = curr[j+1];
+                int diagnol = next[j+1];
+                int down    = next[j];
+
+                //check can we build sqaure form current position or not 
+                if(matrix[i][j] == '1') {     //char vector hai isliye '1' liya 
+                    curr[j] = 1 + min(right, min(down, diagnol));
+                    //ye important hai  learn it 
+                    maxi = max(maxi, curr[j]);
+
+                }
+                else {
+                    //agar 0 pr hi khade ho toh answer bhi zero hoga
+                    curr[j] =0;
+                }
+            }
+            next = curr;
+        }
+        return next[0];
+    }   
+
+    int maximalSquare(vector<vector<char>>& matrix) {
+        int i = 0; 
+        int j = 0;
+        int row = matrix.size();
+        int col = matrix[0].size();
+        int maxi = 0;
+        // create 2d array 
+      //  vector<vector<int>> dp(row+1,vector<int>(col+1,-1));
+        int ans = solveTabulationS0(matrix, i, j, row, col, maxi) ;
+        return maxi*maxi;
+    }
+};
