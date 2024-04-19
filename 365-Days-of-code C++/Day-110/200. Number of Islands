@@ -1,0 +1,46 @@
+class Solution {
+public:
+    void markVisited(vector<vector<char>>& grid, int i , int j){
+        int row = grid.size();
+        int col = grid[0].size();
+        // out of bound check
+        if(i<0 || i>= row || j<0 || j>=col){
+            return;
+        }
+        if(grid[i][j]  =='1'){
+            grid[i][j] ='2';
+            markVisited(grid, i-1,j);  // up 
+            markVisited(grid, i+1,j);  // down 
+            markVisited(grid, i,j-1);  // left
+            markVisited(grid, i,j+1);  // right
+        }
+        return;
+    }
+    int numIslands(vector<vector<char>>& grid) {
+       int  island =0;
+       int row = grid.size();
+       int col = grid[0].size();
+       for(int i =0 ;i<row;i++){
+        for(int j =0 ;j<col; j++){
+            // case 1-> agar 0 ho to skip kardo 
+            if(grid[i][j] =='0'){
+                continue;
+            }
+            // case 2 jab 1 hoga 
+            else if(grid[i][j] == '1'){
+                // no island increase kardo 
+                island ++;
+                // curr index ko visit kardo 
+                grid[i][j] ='2';
+                // explore all directions
+                markVisited(grid, i-1,j);  // up 
+                markVisited(grid, i+1,j);  // down 
+                markVisited(grid, i,j-1);  // left
+                markVisited(grid, i,j+1);  // right
+
+            }
+        }
+       }
+       return island;
+    }
+};
