@@ -1,0 +1,37 @@
+class Solution {
+public:
+    void dfs(vector<vector<int>>& land, int  i , int  j, int& X , int& Y){
+        if(i<0 || i>=land.size() || j<0 || j>= land[0].size() || land[i][j] ==0){
+            return  ;
+        }
+        if(land[i][j] ==1){
+            // mark visited
+            land[i][j] = 0;
+            // update kardo
+            X = max(X, i);
+            Y = max(Y, j);
+            dfs(land,i+1,j, X,Y);
+            dfs(land,i-1,j, X,Y); 
+            dfs(land,i,j+1, X,Y);
+            dfs(land,i,j-1, X,Y);
+        }
+        // yaha par return karne ki jarurat nhi hai aese hi chalega
+    }
+    void solve(vector<vector<int>>& land ,vector<vector<int> >&ans){
+        for(int i=0 ;i<land.size();i++){
+            for(int j=0 ;j<land[0].size();j++){
+                if(land[i][j] == 1){
+                    int X=i;
+                    int Y=j;
+                    dfs(land ,i,j,X,Y);
+                    ans.push_back({i,j,X,Y});
+                }
+            }
+        }
+    }
+    vector<vector<int>> findFarmland(vector<vector<int>>& land) {
+        vector<vector<int> > ans;
+        solve(land , ans);
+        return ans;
+    }
+};
