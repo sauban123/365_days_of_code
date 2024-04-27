@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<int> findDiagonalOrder(vector<vector<int>>& nums) {
+        vector<int> ans;
+        queue<pair<int,int>> q;
+        q.push({0,0});
+
+        while(!q.empty()){
+            int size = q.size();
+            while(size--){
+                auto [i , j]= q.front(); // yahi main hai 
+                q.pop();
+                ans.push_back(nums[i][j]);
+            // iska matlab jab hum j=0 par hoge sirf
+            // tab uske down  me bhi jayenge varna nhi jayenge 
+                if(j==0 && i+1 <nums.size()){
+                    q.push({i+1,j});
+                }
+                // baaki cases me jab j out of bound nhi hai to 
+                //curr ele ke left wala dal do
+                if(j+1 <nums[i].size()){
+                    q.push({i,j+1});
+                }
+            }
+        }
+        return ans;
+    }
+};
