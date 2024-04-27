@@ -1,0 +1,46 @@
+class Solution {
+public:
+    vector<int> findDiagonalOrder(vector<vector<int>>& mat) {
+        int row = mat.size();
+        int col = mat[0].size();
+        int i =0;   // i = rowIndex
+        int j =0;   // j = colIndex
+        vector<int> ans;
+        bool up = true;
+        while(i<row && j < col){
+            if(up == true){
+                while(i >0 && j < col-1){ // last wale ele par ruk jayega 
+                    ans.push_back(mat[i][j]);
+                    i--;
+                    j++;
+                }
+                // last ko push karalo then update 
+                ans.push_back(mat[i][j]);
+                if(j == col-1){
+                    i++;
+                }
+                else{
+                    j++;
+                }
+            }
+            else{
+                while(i < row-1 && j > 0){ // last wale ele par ruk jayega 
+                    ans.push_back(mat[i][j]);
+                    i++;
+                    j--;
+                }
+                // last ko push karalo then update 
+                ans.push_back(mat[i][j]);
+                if(i == row-1){
+                    j++;
+                }
+                else{
+                    i++;
+                }
+            }
+            // change the directdion
+            up = !up;
+        }
+        return ans;
+    }
+};
