@@ -1,0 +1,20 @@
+class Solution {
+public:
+    vector<int> findDiagonalOrder(vector<vector<int>>& nums) {
+        unordered_map<int , vector<int>> map;
+        vector<int> ans;
+        int maxSum =0;
+        for(int i=nums.size()-1 ;i>=0;i--){ // i ko last se start kara kyunki hume neeche 
+            for(int j=0 ;j<nums[i].size();j++){  // upar ki aur print karana hai
+                maxSum = max(maxSum , i+j);
+                map[i+j].push_back(nums[i][j]);
+            }
+        }
+        for(int i =0 ;i<=maxSum;i++){ // ( i<=maxSum )bcz maxSum is storing max index 
+            for(auto ele: map[i]){
+                ans.push_back(ele);
+            }
+        }
+        return ans;
+    }
+};
