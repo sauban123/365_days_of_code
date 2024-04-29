@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int  dis(int curr , int next , int ringLen ){
+        int stepBetween = abs(curr- next);
+        int stepAround = ringLen - stepBetween;
+        return min (stepBetween , stepAround);
+    }
+
+     int solveUsingMemo(int ringIndex , int keyIndex,string &ring , string& key, vector<vector<int>> &dp){
+        // base case when key ends 
+        if(keyIndex == key.size() )   return 0;
+        // check 
+        if(dp[ringIndex][keyIndex] != -1){
+            return dp[ringIndex][keyIndex];
+        }
+        int minSteps = INT_MAX;
+        for(int i =0;i<ring.size();i++){
+            if(ring[i] == key[keyIndex]){
+                int totalSteps = dis(ringIndex , i, ring.size() ) + 1 +
+                                solveUsingMemo(i , keyIndex+1,ring , key,dp);
+                minSteps = min(minSteps, totalSteps);
+            }
+        }
+        return dp[ringIndex][keyIndex] = minSteps;
+     }
+    int findRotateSteps(string ring, string key) {
+        int  n = ring.size();
+        int  m = key.size();
+        vector<vector<int>> dp(n,vector<int>(m,-1));
+        return solveUsingMemo(0 , 0 , ring , key,dp);
+    }
+};
