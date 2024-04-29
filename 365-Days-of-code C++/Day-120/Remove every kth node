@@ -1,0 +1,24 @@
+class Solution {
+    public:
+    Node* deleteK(Node *head,int K){
+      //Your code here
+      if(K==1)  return NULL;
+      Node * prev = NULL;
+      Node * curr = head;
+      int count=1;
+      while(curr != NULL){
+          if(count == K){
+              count =1;
+              // remove kardo node ko 
+              prev->next = curr->next;
+              curr = curr->next;
+          }
+          else{
+              prev = curr;
+              curr = curr->next;
+              count ++;
+          }
+      }
+      return head;
+    }
+};
