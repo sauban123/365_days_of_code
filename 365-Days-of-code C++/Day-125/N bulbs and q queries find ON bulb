@@ -1,0 +1,36 @@
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+
+
+vector<int> Bulbs(int n, vector<pair<int, int>>& queries) {
+    vector<int> diff(n + 1, 0);
+
+    for (auto& q : queries) {
+        int l = q.first, r = q.second;
+        diff[l] += 1;
+        if (r + 1 < n) diff[r + 1] -= 1;
+    }
+
+    vector<int> bulbs(n, 0);
+    int on_count = 0, state = 0;
+    for (int i = 0; i < n; i++) {
+        state += diff[i]; 
+        bulbs[i] = state % 2;
+        on_count += bulbs[i];
+    }
+
+    return {on_count}; 
+}
+
+int main() {
+    int n = 10;
+    vector<pair<int, int>> queries = {{2, 5}, {3, 7}, {0, 3}}; 
+
+    vector<int> result = Bulbs(n, queries);
+    cout << "Total ON bulbs: " << result[0] << endl;
+
+    return 0;
+}
